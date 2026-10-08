@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+    REVIEW HTML — HOME PAGE hamstlOVer
+
+    KONSEP DASAR HTML
+    - HTML = kerangka/struktur halaman. Tersusun dari ELEMENT: <tag atribut="nilai">isi</tag>
+    - Atribut = info tambahan pada tag (href, src, alt, class, id, ...)
+    - <!DOCTYPE html> memberi tahu browser bahwa ini HTML5 (tanpa ini browser masuk quirks mode)
+
+    ATURAN SOAL (checklist)
+    [x] CSS external   -> <link rel="stylesheet" href="css/style.css">
+    [x] JS external    -> (di register.html) <script src="js/register.js">
+    [x] Semantic tag   -> header, nav, main, section, article, footer
+    [x] Tanpa <table>  -> layout pakai flexbox (di CSS)
+    [x] Path relative  -> "css/style.css", "asset/..." (BUKAN "D:/..." atau "/asset/...")
+    [x] Hover image dg pseudo-element -> .card-img::after di CSS
+-->
+<html lang="en">
+<!-- lang="en": bahasa halaman, membantu screen reader & mesin pencari -->
+
+<head>
+    <!-- HEAD: info tentang halaman, TIDAK tampil di layar -->
+    <meta charset="UTF-8">
+    <!-- charset UTF-8: supaya karakter spesial (©, é, emoji) tampil benar -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- viewport: supaya layout menyesuaikan lebar layar HP -->
+    <title>hamstlOVer | Home</title>
+    <!-- title: teks di tab browser -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- link rel="stylesheet": menyambungkan CSS external. href RELATIVE terhadap file ini -->
+</head>
+
+<body>
+    <!-- BODY: semua yang tampil di layar -->
+
+    <!-- header: bagian kepala halaman (logo + navigasi) -->
+    <header class="navbar">
+        <a href="index.html" class="logo">hamstlOVer</a>
+        <!-- nav: kumpulan link navigasi utama. ul/li = daftar tanpa urutan -->
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- main: isi utama halaman, hanya BOLEH ada 1 per halaman -->
+    <main>
+        <!-- section: kelompok konten bertema. Banner dipasang sebagai background-image di CSS
+             (gambar dekorasi = urusan CSS, gambar berisi info = <img>) -->
+        <section class="hero">
+            <div class="hero-box">
+                <h2>Your Hamster Journey Begins Here!</h2>
+                <p>Find the best hamsters and supplies to bring joy to your home and family.</p>
+                <!-- <a> = pindah halaman. <button> = aksi (submit/klik). Di sini pindah halaman -> <a> -->
+                <a href="register.html" class="btn">Register Now!</a>
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2>Featured Hamsters</h2>
+
+            <!-- div.cards: pembungkus supaya 3 kartu bisa ditata berjajar (flex) -->
+            <div class="cards">
+
+                <!-- article: konten yang berdiri sendiri (satu produk). Class kedua (hover-xxx)
+                     dipakai CSS untuk memilih gambar hover yang berbeda -->
+                <article class="card">
+                    <!-- <img> tidak bisa punya ::after, jadi dibungkus div -->
+                    <div class="card-img hover-scared">
+                        <!-- alt: teks pengganti jika gambar gagal dimuat + untuk screen reader -->
+                        <img src="asset/staring_hamster.jpg" alt="Staring Hamster">
+                    </div>
+                    <h3>Staring Hamster</h3>
+                    <p>Likes to stare at people</p>
+                    <p class="price">$15.99</p>
+                </article>
+
+                <article class="card">
+                    <div class="card-img hover-sad">
+                        <img src="asset/scared_hamster.jpg" alt="Scared Hamster">
+                    </div>
+                    <h3>Scared Hamster</h3>
+                    <p>Small and adorable, easily gets heart attacks.</p>
+                    <p class="price">$12.99</p>
+                </article>
+
+                <article class="card">
+                    <div class="card-img hover-staring">
+                        <img src="asset/sad-hamster-sad.png" alt="Sad Hamster">
+                    </div>
+                    <h3>Sad Hamster</h3>
+                    <p>Active and playful, hates being alone</p>
+                    <p class="price">$18.99</p>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- footer: bagian kaki halaman. &copy; = entity HTML untuk simbol © -->
+    <footer class="footer">
+        <p>&copy; 2025 hamstlOVer</p>
+    </footer>
+</body>
+
+</html>

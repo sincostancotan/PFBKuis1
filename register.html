@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--
+    REVIEW HTML — REGISTER PAGE
+    Ingat: TIDAK ADA atribut "required", TIDAK ADA regex. Semua validasi manual di js/register.js.
+    Komponen form yang dipakai (soal minta minimal 5 jenis):
+      1. input type="text"      (username, email)
+      2. input type="password"  (password, confirm)
+      3. input type="date"      (tanggal lahir)
+      4. input type="radio"     (gender)
+      5. input type="checkbox"  (terms)
+      6. button type="submit"
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hamstlOVer | Register</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">hamstlOVer</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="register-page">
+        <section class="form-card">
+            <h2>Register to hamstlOVer</h2>
+
+            <!-- id="registerForm" -> dipakai JS untuk getElementById.
+                 Event submit dipasang di JS (addEventListener), BUKAN onsubmit="" di HTML.
+                 novalidate tidak dipakai karena tanpa "required" browser tidak memvalidasi apa pun,
+                 dan type="text" untuk email supaya browser tidak ikut campur. -->
+            <form id="registerForm" action="" method="post">
+
+                <!-- CATATAN:
+                     - <span class="error" id="...Error"> = tempat pesan error. <span> = pembungkus inline netral
+                       (tanpa makna & tanpa gaya bawaan); tampilannya diatur CSS .error (display:block, font-size 12px).
+                       Alternatif semantik: <small> (teks sampingan) -> hasil sama, CSS/JS tidak berubah.
+                     - id   = nama UNIK elemen. Dipakai JS (getElementById), label (for), dan CSS (#id).
+                     - name = nama data saat form dikirim ke server. Radio satu grup WAJIB name sama;
+                              JS gender memakai getElementsByName("gender").
+                     - Untuk validasi: field biasa -> id yang penting; radio -> name yang penting;
+                       pesan error -> id (supaya JS bisa mengisi teksnya). -->
+
+                <!-- POLA 1 FIELD: label (for = id input) + input + <span> tempat pesan error.
+                     label for="username" membuat klik pada teks label memfokuskan input-nya. -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <!-- id: untuk JS & label. name: nama data yang dikirim ke server. placeholder: teks petunjuk -->
+                    <input type="text" id="username" name="username" placeholder="Enter username">
+                    <span class="error" id="usernameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <!-- type="text", BUKAN "email": type="email" bikin browser validasi sendiri,
+                         padahal soal minta validasi manual lewat JS -->
+                    <input type="text" id="email" name="email" placeholder="Enter email">
+                    <span class="error" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <!-- type="password": karakter disamarkan -->
+                    <input type="password" id="password" name="password" placeholder="Enter password">
+                    <span class="error" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+                    <span class="error" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <!-- type="date": browser menampilkan date-picker; value-nya string "YYYY-MM-DD" -->
+                    <input type="date" id="dob" name="dob">
+                    <span class="error" id="dobError"></span>
+                </div>
+
+                <!-- RADIO: semua radio dalam 1 grup HARUS name sama -> hanya 1 bisa dipilih.
+                     value berbeda per pilihan. Tidak ada satu pun yang checked -> user wajib memilih. -->
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="male"> Male</label>
+                        <label><input type="radio" name="gender" value="female"> Female</label>
+                    </div>
+                    <span class="error" id="genderError"></span>
+                </div>
+
+                <!-- CHECKBOX: true/false lewat properti .checked -->
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms">
+                        I agree to the Terms and Conditions
+                    </label>
+                    <span class="error" id="termsError"></span>
+                </div>
+
+                <!-- type="submit": klik memicu event "submit" pada form -> ditangkap JS -->
+                <button type="submit" class="btn btn-full">Register Now</button>
+
+                <!-- pesan sukses diisi JS jika semua valid -->
+                <p class="success" id="successMessage"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 hamstlOVer</p>
+    </footer>
+
+    <!-- SCRIPT ditaruh di akhir body: saat JS jalan, semua elemen di atas sudah ada di DOM.
+         src = external JS, tag ini TIDAK boleh berisi kode. -->
+    <script src="js/register.js"></script>
+</body>
+
+</html>

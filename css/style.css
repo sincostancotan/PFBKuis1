@@ -1,0 +1,317 @@
+/*
+  REVIEW CSS — dipakai index.html & register.html
+
+  CARA KERJA CSS:  selector { property: value; }
+  SELECTOR: *  tag  .class  #id  .a b (descendant)  .a > b (child)  a, b (grouping)
+            :hover (pseudo-class = kondisi)   ::after (pseudo-element = elemen virtual)
+  PRIORITAS: inline > #id > .class > tag > *
+  Path gambar di CSS RELATIVE terhadap file CSS ini -> "../asset/..." (naik 1 folder dari css/)
+*/
+
+/* RESET + BOX-SIZING
+   content-box (default): width = isi saja -> width 100% + padding = meluber
+   border-box: width = isi + padding + border -> width 100% tetap pas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body jadi flex COLUMN, main flex:1 -> main mengisi sisa tinggi layar,
+   footer selalu menempel di bawah walau isi sedikit */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: lightgray;
+    font-family: "Comic Sans MS", cursive;
+}
+
+main {
+    flex: 1;
+}
+
+/* ===== NAVBAR & FOOTER ===== */
+
+/* FLEX ROW: justify-content = atur sumbu utama (kiri-kanan), align-items = sumbu silang (atas-bawah)
+   space-between: logo mentok kiri, menu mentok kanan
+   padding shorthand: 1 nilai=semua sisi | 2 nilai=atas-bawah kiri-kanan | 4 nilai=atas kanan bawah kiri */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    position: sticky;      /* menempel di atas saat scroll */
+    top: 0;
+    z-index: 10;           /* di atas konten lain */
+}
+
+/* GROUPING selector: navbar & footer berbagi gaya yang sama */
+.navbar,
+.footer {
+    background-color: steelblue;
+    color: khaki;          /* color = warna TEKS */
+}
+
+.footer {
+    text-align: center;
+    padding: 28px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar a {
+    color: inherit;            /* ikut warna induk */
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;     /* hapus garis bawah link */
+}
+
+.navbar .logo {                /* descendant selector: .logo di dalam .navbar */
+    font-size: 28px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;                 /* jarak antar item flex */
+    list-style: none;          /* hapus bullet <ul> */
+}
+
+/* CHILD selector (>) : hanya anak langsung */
+.nav-links > li > a {
+    color: white;
+}
+
+.nav-links > li > a:hover {
+    color: khaki;
+}
+
+/* ===== BUTTON (dipakai <a> dan <button>) ===== */
+.btn {
+    display: inline-block;     /* <a> inline default tidak bisa diberi padding vertikal penuh */
+    background-color: steelblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;           /* kursor tangan = tanda bisa diklik */
+    text-decoration: none;
+    transition: box-shadow 0.3s, background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: royalblue;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* ===== HOME: HERO ===== */
+/* background-image + background-size: cover (menutupi area) + position: bottom (hamster di bawah) */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 320px;
+    margin: 12px;
+    background-color: white;
+    background-image: url("../asset/banner.jpg");
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+.hero-box {
+    max-width: 490px;
+    padding: 30px;
+    text-align: center;
+    background-color: lightsteelblue;
+    border-radius: 8px;
+}
+
+.hero-box p {
+    margin: 16px 0;
+}
+
+/* ===== HOME: FEATURED CARDS ===== */
+.featured {
+    padding: 24px 12px 48px;
+    text-align: center;
+}
+
+.featured h2 {
+    margin-bottom: 20px;
+}
+
+/* flex-wrap: kartu turun ke baris baru kalau layar sempit (responsive) */
+.cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.card {
+    width: 230px;
+    padding: 12px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+/* EFEK HOVER KARTU: box-shadow biru lebih besar + naik sedikit (sesuai Figure 2) */
+.card:hover {
+    box-shadow: 0 8px 18px steelblue;
+    transform: translateY(-4px);
+}
+
+/* HOVER IMAGE dengan PSEUDO-ELEMENT:
+   - .card-img position:relative -> jadi patokan untuk ::after yang absolute
+   - ::after wajib punya content (kosong "" pun) supaya muncul
+   - awalnya opacity 0 (tak terlihat), saat kartu di-hover jadi 1
+   - overflow:hidden + border-radius: sudut gambar membulat */
+.card-img {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* gambar menutupi kotak tanpa gepeng */
+    display: block;
+}
+
+.card-img::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.card:hover .card-img::after {   /* hover di kartu -> pseudo-element muncul */
+    opacity: 1;
+}
+
+/* gambar hover berbeda per kartu (class kedua di HTML) */
+.hover-scared::after  { background-image: url("../asset/scared_hamster.jpg"); }
+.hover-sad::after     { background-image: url("../asset/sad-hamster-sad.png"); }
+.hover-staring::after { background-image: url("../asset/staring_hamster.jpg"); }
+
+.card h3 {
+    margin: 16px 0 10px;
+    color: steelblue;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+.card .price {
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: orangered;
+}
+
+/* ===== REGISTER ===== */
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 12px;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 30px 26px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.form-card h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: steelblue;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group > label {
+    display: block;            /* label (inline) -> satu baris sendiri */
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: steelblue;
+}
+
+/* ATTRIBUTE selector: hanya input dengan type tertentu */
+input[type="text"],
+input[type="password"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* :focus = saat input sedang diklik/aktif */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus {
+    outline: none;
+    border-color: steelblue;
+    box-shadow: 0 0 6px steelblue;
+}
+
+.radio-group {
+    display: flex;
+    gap: 16px;
+}
+
+.radio-group label,
+.checkbox-label {
+    font-size: 14px;
+    font-weight: normal;
+    color: steelblue;
+    cursor: pointer;
+}
+
+/* ===== ERROR / SUCCESS =====
+   <small class="error"> awalnya kosong (tidak makan tempat); JS mengisi teksnya.
+   Class .invalid ditambah JS ke input yang salah -> border merah. */
+.error {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    color: crimson;
+}
+
+input.invalid {
+    border-color: crimson;
+}
+
+.success {
+    margin-top: 12px;
+    text-align: center;
+    font-weight: bold;
+    color: seagreen;
+}
